@@ -111,8 +111,8 @@ echo "AuthenticationMethods publickey,password publickey,keyboard-interactive" |
 systemctl restart ssh
 
 # Setting current IP to whitelisted IPs
-if [ ${WHITELISTED_IP} = "x.x.x.x" ]
-    then WHITELISTED_IP="$(echo ${SSH_CONNECTION} | awk '{print $1}')"
+if [ "${WHITELISTED_IP}" = "x.x.x.x" ]
+    then WHITELISTED_IP="$(w -h | awk '{print $3}')"
 fi
 
 # Setup Fail2ban
