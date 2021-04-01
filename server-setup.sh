@@ -15,26 +15,20 @@ WHITELISTED_IP="x.x.x.x" # Don't change if you want to use your current IP
 ##  Do NOT modify code below this line ##
 #########################################
 
-echo "----------------------------------"
-echo "This script was developed on Debian Linux 10"
-echo "You are running the following version of Linux:"
-. /etc/os-release && echo ${PRETTY_NAME}
-echo -e "----------------------------------\n"
+# Check Linux 
+if [ ! -f "/etc/debian_version" ]
+    then echo -e "\nThis script is developed for Debian Linux system\n"
+    exit
+fi
 
 # Run as root
 if [ "$EUID" -ne 0 ]
-  then echo -e "Please run as 'root'\n"
+  then echo -e "\nPlease run as 'root'\n"
   exit
 fi
 
 # Setting UTF-8 locale
-locale-gen en_US.UTF-8
-update-locale LANG=en_US.UTF-8
-cat <<EOF | tee -a ~/.bashrc 
-export LC_CTYPE=en_US.UTF-8 
-export LC_ALL=en_US.UTF-8
-EOF
-source ${HOME}/.bashrc
+locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
 
 # Create the ${NODE_USER} user (do not switch user)
 groupadd -g 1024 ${NODE_USER}
@@ -133,8 +127,5 @@ ufw allow 12798/tcp # Prometheus port (public - consider move it to Wireguard)
 ufw allow from ${WHITELISTED_IP} to any port 22 # SSH port with your IP address
 ufw enable
 
-# Cleaning 
-rm -rf $PWD
-
-# Reboot
-shutdown -r 0
+# Cleaning and rebooting...
+rm -rf $PWD && shutdown -r 0

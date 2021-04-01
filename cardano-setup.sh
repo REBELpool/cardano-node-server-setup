@@ -2,7 +2,7 @@
 # This script sets up the node for use as a stake pool.
 
 # Remove autostart file
-sed -i '$d' ${HOME}.bashrc
+sed -i '$d' ${HOME}/.bashrc
 
 # Make folder for build
 mkdir -p ~/src
@@ -48,7 +48,8 @@ package cardano-crypto-praos
 EOF
 cabal build all
 cabal install --installdir ${HOME}/.local/bin cardano-cli cardano-node
-cardano-cli --version
+cardano-node version
+cardano-cli version
 
 # Setup Cardano-node.service
 mv $CNODE_HOME/scripts/run-cardano-node.sh $CNODE_HOME

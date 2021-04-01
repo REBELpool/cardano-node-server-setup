@@ -4,6 +4,12 @@
 # Remove autostart file
 sed -i '$d' ${HOME}/.bashrc
 
+# Add autostart script
+echo "tmux new-session -d -s "Cardano" ~/cardano-setup.sh" | tee -a $HOME/.bashrc
+
+# Disabling root account
+echo -e "Disabling 'root' account..." && sudo passwd -l root
+
 # Setup local bin folder
 echo "Setting local 'bin' folder for Cardano apps"
 mkdir -p $HOME/.local/bin
@@ -32,15 +38,5 @@ export CARDANO_NODE_SOCKET_PATH="$HOME/cardano-node/db/node.socket"
 export NODE_CONFIG="mainnet"
 EOF
 
-# Disabling root account
-echo "Disabling 'root' account"
-sudo passwd -l root
-
-# Cleaning after setup
-rm user-setup.sh
-
-# Add autostart script
-echo "tmux new-session -d -s "Cardano" ~/cardano-setup.sh" | tee -a $HOME/.bashrc
-
-# Reboot
-sudo shutdown -r 0
+# Cleaning & rebooting...
+rm user-setup.sh && sudo shutdown -r 0
