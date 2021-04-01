@@ -2,7 +2,7 @@
 # This script sets up the node for use as a stake pool.
 
 # Remove autostart file
-sed -i '$d' ${HOME}.bashrc
+sed -i '$d' ${HOME}/.bashrc
 
 # Setup local bin folder
 echo "Setting local 'bin' folder for Cardano apps"

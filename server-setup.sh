@@ -23,13 +23,8 @@ echo -e "----------------------------------\n"
 
 # Run as root
 if [ "$EUID" -ne 0 ]
-  then echo "Please run as 'root'"
+  then echo -e "Please run as 'root'\n"
   exit
-fi
-
-# Setting current IP to whitelisted IPs
-if [ ${WHITELISTED_IP} = "x.x.x.x" ]
-    then WHITELISTED_IP="$(echo ${SSH_CONNECTION} | awk '{print $1}')"
 fi
 
 # Setting UTF-8 locale
@@ -56,7 +51,7 @@ apt -y install unattended-upgrades
 dpkg-reconfigure -f noninteractive unattended-upgrades
 
 # Install needed packages
-apt -y install git tmux ufw htop chrony curl rsync libpam-google-authenticator prometheus-node-exporter
+apt -y install git tmux ufw htop chrony curl rsync libpam-google-authenticator prometheus-node-exporter fail2ban
 apt -y install jq bc make automake build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ wget libncursesw5 libtool autoconf
 apt autoremove
 apt autoclean
@@ -115,8 +110,12 @@ echo "AllowUsers ${NODE_USER}" | sudo tee -a /etc/ssh/sshd_config
 echo "AuthenticationMethods publickey,password publickey,keyboard-interactive" | sudo tee -a /etc/ssh/sshd_config
 systemctl restart ssh
 
+# Setting current IP to whitelisted IPs
+if [ ${WHITELISTED_IP} = "x.x.x.x" ]
+    then WHITELISTED_IP="$(echo ${SSH_CONNECTION} | awk '{print $1}')"
+fi
+
 # Setup Fail2ban
-apt-get install fail2ban -y
 cat <<EOF | tee /etc/fail2ban/jail.local
 [sshd]
 enabled = true
