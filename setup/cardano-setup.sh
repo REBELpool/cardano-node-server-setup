@@ -4,22 +4,11 @@
 # Remove autostart file
 sed -i '$d' ${HOME}/.bashrc
 
-CARDANO_CONFIG="https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/"
-NODE_HOME="${HOME}/cardano-node"
-
-# Mainnet config
-echo "Downloading mainnet files..."
-mkdir -p ${NODE_HOME}/config
-curl -sSL ${CARDANO_CONFIG}mainnet-config.json -o ${NODE_HOME}/config/config.json
-curl -sSL ${CARDANO_CONFIG}mainnet-shelley-genesis.json -o ${NODE_HOME}/config/mainnet-shelley-genesis.json
-curl -sSL ${CARDANO_CONFIG}mainnet-byron-genesis.json -o ${NODE_HOME}/config/mainnet-byron-genesis.json
-curl -sSL ${CARDANO_CONFIG}mainnet-topology.json -o ${NODE_HOME}/config/topology.json
-
 # Make folder for build
 mkdir -p ~/src
 
 # Install dependencies
-sudo apt-get install git jq bc make automake rsync htop curl build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ wget libncursesw5 libtool autoconf -y
+sudo apt-get install build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ libgmp10 libffi6 libffi-dev libtinfo5  libncursesw5 libncurses-dev libtool autoconf -y
 
 # Install Libsodium
 cd ~/src
@@ -31,9 +20,6 @@ git checkout 66f017f1
 make
 sudo make install
 sudo ln -s /usr/local/lib/libsodium.so.23.3.0 /usr/lib/libsodium.so.23
-
-# Install dependencies
-sudo apt-get -y install pkg-config libgmp-dev libssl-dev libtinfo-dev libsystemd-dev libgmp10 zlib1g-dev build-essential curl libffi6 libffi-dev libncurses-dev libtinfo5 libncurses5 
 
 # Install Cabal
 cd ~/src
@@ -64,15 +50,29 @@ git clone https://github.com/input-output-hk/cardano-node.git
 cd cardano-node 
 git fetch --all --recurse-submodules --tags
 git checkout tags/${TAG}
-cabal configure --with-compiler=ghc-8.10.2
+cabal configure -O0 -w ghc-8.10.4
 echo <<EOF | tee -a cabal.project.local
 package cardano-crypto-praos
   flags: -external-libsodium-vrf
 EOF
-cabal build all
+sed -i $HOME/.cabal/config -e "s/overwrite-policy:/overwrite-policy: always/g"
+cabal build cardano-cli cardano-node
 cabal install --installdir ${HOME}/.local/bin cardano-cli cardano-node
 cardano-node version
 cardano-cli version
+
+# Cardano config address
+CARDANO_CONFIG="https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/"
+NODE_HOME="${HOME}/cardano-node"
+
+# Mainnet config
+echo "Downloading mainnet files..."
+mkdir -p ${NODE_HOME}/config
+curl -sSL ${CARDANO_CONFIG}mainnet-config.json -o ${NODE_HOME}/config/config.json
+curl -sSL ${CARDANO_CONFIG}mainnet-shelley-genesis.json -o ${NODE_HOME}/config/mainnet-shelley-genesis.json
+curl -sSL ${CARDANO_CONFIG}mainnet-byron-genesis.json -o ${NODE_HOME}/config/mainnet-byron-genesis.json
+curl -sSL ${CARDANO_CONFIG}mainnet-topology.json -o ${NODE_HOME}/config/topology.json
+
 
 # Setup Cardano-node.service
 mv $CNODE_HOME/scripts/run-cardano-node.sh $CNODE_HOME

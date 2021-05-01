@@ -40,7 +40,7 @@ apt -y install unattended-upgrades
 dpkg-reconfigure -f noninteractive unattended-upgrades
 
 # Install needed packages
-apt -y install tmux ufw htop chrony curl rsync libpam-google-authenticator prometheus-node-exporter fail2ban build-essential
+apt -y install tmux ufw htop chrony curl jq bc wget make automake rsync htop libpam-google-authenticator prometheus-node-exporter fail2ban build-essential
 apt autoremove
 apt autoclean
 
