@@ -18,21 +18,8 @@ curl -sSL ${CARDANO_CONFIG}mainnet-topology.json -o ${NODE_HOME}/config/topology
 # Make folder for build
 mkdir -p ~/src
 
-# Install Cabal
-cd ~/src
-wget https://hackage.haskell.org/package/cabal-install-3.4.0.0/cabal-install-3.4.0.0.tar.gz
-tar -xf cabal-install-3.4.0.0.tar.gz
-rm cabal-install-3.4.0.0.tar.gz
-mv cabal ${HOME}/.local/bin/
-cabal update
-
-# Install GHC Compiler
-cd ~/src
-wget https://downloads.haskell.org/ghc/8.10.2/ghc-8.10.2-x86_64-deb9-linux.tar.xz
-tar -xf ghc-8.10.2-x86_64-deb9-linux.tar.xz
-cd ghc-8.10.2
-./configure
-sudo make install
+# Install dependencies
+sudo apt-get install git jq bc make automake rsync htop curl build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ wget libncursesw5 libtool autoconf -y
 
 # Install Libsodium
 cd ~/src
@@ -44,6 +31,30 @@ git checkout 66f017f1
 make
 sudo make install
 sudo ln -s /usr/local/lib/libsodium.so.23.3.0 /usr/lib/libsodium.so.23
+
+# Install dependencies
+sudo apt-get -y install pkg-config libgmp-dev libssl-dev libtinfo-dev libsystemd-dev libgmp10 zlib1g-dev build-essential curl libffi6 libffi-dev libncurses-dev libtinfo5 libncurses5 
+
+# Install Cabal
+cd ~/src
+wget https://hackage.haskell.org/package/cabal-install-3.4.0.0/cabal-install-3.4.0.0.tar.gz
+tar -xf cabal-install-3.4.0.0.tar.gz
+rm cabal-install-3.4.0.0.tar.gz
+mv cabal ${HOME}/.local/bin/
+cabal update
+
+# Install GHC Compiler
+cd ~/src
+wget https://downloads.haskell.org/~ghc/8.10.4/ghc-8.10.4-x86_64-deb10-linux.tar.xz
+tar -xf ghc-8.10.4-x86_64-deb10-linux.tar.xz
+cd ghc-8.10.4
+./configure
+sudo make install
+
+# Verify cabal & ghc
+cabal update
+cabal --version
+ghc --version
 
 # Instal Cardano Node
 TAG=1.26.2

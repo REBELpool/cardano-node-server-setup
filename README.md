@@ -21,10 +21,10 @@ sudo apt update -y && sudo apt upgrade -y && sudo apt install -y git
 2. Clone this repo `cardano-node-server-setup`
 
 ```bash
-git clone git@github.com:REBELpool/cardano-node-server-setup.git
+git clone https://github.com/REBELpool/cardano-node-server-setup.git setup
 ```
 
-3. Run ./server-setup.sh
+3. Run server-setup.sh
 
 ```bash
 cd setup && sudo ./server-setup.sh

@@ -37,6 +37,7 @@ export CNODE_HOME="$HOME/cardano-node" # For CNCLI scripts
 export CARDANO_NODE_SOCKET_PATH="$HOME/cardano-node/db/node.socket"
 export NODE_CONFIG="mainnet"
 EOF
+echo export NODE_BUILD_NUM=$(curl https://hydra.iohk.io/job/Cardano/iohk-nix/cardano-deployment/latest-finished/download/1/index.html | grep -e "build" | sed 's/.*build\/\([0-9]*\)\/download.*/\1/g') >> $HOME/.bashrc
 
 # Cleaning & rebooting...
 rm user-setup.sh && sudo shutdown -r 0

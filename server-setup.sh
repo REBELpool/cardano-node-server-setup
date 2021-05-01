@@ -23,6 +23,7 @@ fi
 
 # Setting UTF-8 locale
 locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
+source ~/.bashrc
 
 # Create the ${NODE_USER} user (do not switch user)
 groupadd -g 1024 ${NODE_USER}
@@ -39,11 +40,9 @@ apt -y install unattended-upgrades
 dpkg-reconfigure -f noninteractive unattended-upgrades
 
 # Install needed packages
-apt -y install git tmux ufw htop chrony curl rsync libpam-google-authenticator prometheus-node-exporter fail2ban jq bc make automake build-essential
-apt -y install pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ wget libncursesw5 libtool autoconf
+apt -y install tmux ufw htop chrony curl rsync libpam-google-authenticator prometheus-node-exporter fail2ban build-essential
 apt autoremove
 apt autoclean
-
 
 ## Chrony (use the Google Time Server)
 cat <<EOF | tee /etc/chrony/chrony.conf
