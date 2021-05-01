@@ -15,7 +15,7 @@ This guide is for educational purposes only. By using this guide, you assume sol
 1. Update packages and install `git`
 
 ```bash
-sudo apt update -y && sudo apt ugrade -y && sudo apt install -y git
+sudo apt update -y && sudo apt upgrade -y && sudo apt install -y git
 ```
 
 2. Clone this repo `cardano-node-server-setup`

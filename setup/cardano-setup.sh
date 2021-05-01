@@ -4,13 +4,25 @@
 # Remove autostart file
 sed -i '$d' ${HOME}/.bashrc
 
+CARDANO_CONFIG="https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/"
+NODE_HOME="${HOME}/cardano-node"
+
+# Mainnet config
+echo "Downloading mainnet files..."
+mkdir -p ${NODE_HOME}/config
+curl -sSL ${CARDANO_CONFIG}mainnet-config.json -o ${NODE_HOME}/config/config.json
+curl -sSL ${CARDANO_CONFIG}mainnet-shelley-genesis.json -o ${NODE_HOME}/config/mainnet-shelley-genesis.json
+curl -sSL ${CARDANO_CONFIG}mainnet-byron-genesis.json -o ${NODE_HOME}/config/mainnet-byron-genesis.json
+curl -sSL ${CARDANO_CONFIG}mainnet-topology.json -o ${NODE_HOME}/config/topology.json
+
 # Make folder for build
 mkdir -p ~/src
 
 # Install Cabal
 cd ~/src
-wget https://downloads.haskell.org/~cabal/cabal-install-3.2.0.0/cabal-install-3.2.0.0-x86_64-unknown-linux.tar.xz
-tar -xf cabal-install-3.2.0.0-x86_64-unknown-linux.tar.xz
+wget https://hackage.haskell.org/package/cabal-install-3.4.0.0/cabal-install-3.4.0.0.tar.gz
+tar -xf cabal-install-3.4.0.0.tar.gz
+rm cabal-install-3.4.0.0.tar.gz
 mv cabal ${HOME}/.local/bin/
 cabal update
 
@@ -34,7 +46,7 @@ sudo make install
 sudo ln -s /usr/local/lib/libsodium.so.23.3.0 /usr/lib/libsodium.so.23
 
 # Instal Cardano Node
-TAG=1.25.1
+TAG=1.26.2
 mkdir -p ~/src
 cd ~/src
 git clone https://github.com/input-output-hk/cardano-node.git
