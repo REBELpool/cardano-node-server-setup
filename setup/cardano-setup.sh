@@ -22,20 +22,16 @@ sudo make install
 sudo ln -s /usr/local/lib/libsodium.so.23.3.0 /usr/lib/libsodium.so.23
 
 # Install Cabal
-cd ~/src
-wget https://hackage.haskell.org/package/cabal-install-3.4.0.0/cabal-install-3.4.0.0.tar.gz
-tar -xf cabal-install-3.4.0.0.tar.gz
-rm cabal-install-3.4.0.0.tar.gz
-mv cabal ${HOME}/.local/bin/
-cabal update
+cd $HOME
+curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+source $HOME/.bashrc
+ghcup upgrade
+ghcup install cabal 3.4.0.0
+ghcup set cabal 3.4.0.0
 
 # Install GHC Compiler
-cd ~/src
-wget https://downloads.haskell.org/~ghc/8.10.4/ghc-8.10.4-x86_64-deb10-linux.tar.xz
-tar -xf ghc-8.10.4-x86_64-deb10-linux.tar.xz
-cd ghc-8.10.4
-./configure
-sudo make install
+ghcup install ghc 8.10.4
+ghcup set ghc 8.10.4
 
 # Verify cabal & ghc
 cabal update
