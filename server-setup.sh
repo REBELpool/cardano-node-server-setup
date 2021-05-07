@@ -83,7 +83,7 @@ sed -i.bak2 "s/#PermitEmptyPasswords no/PermitEmptyPasswords no/g" /etc/ssh/sshd
 sed -i.bak3 "s/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/g" /etc/ssh/sshd_config
 sed -i.bak4 "s/PermitRootLogin yes/PermitRootLogin no/g" /etc/ssh/sshd_config
 sed -i.bak5 "s/#Port 22/Port ${SSH_PORT}/g" /etc/ssh/sshd_config
-
+sed -i.bak6 "s/X11Forwarding yes/X11Forwarding no/g" /etc/ssh/sshd_config
 echo "AllowUsers ${NODE_USER}" | sudo tee -a /etc/ssh/sshd_config
 echo "AuthenticationMethods publickey,password publickey,keyboard-interactive" | sudo tee -a /etc/ssh/sshd_config
 systemctl restart ssh
