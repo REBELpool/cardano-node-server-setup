@@ -5,6 +5,7 @@
 NODE_USER="rebel" # [default: rebel]
 NODE_PORT="3001" # [default: 3001]
 SSH_PORT="22" # [default: 22]
+SSH_PUB_KEY="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCzAonRTQrU3wupXZSgsKQTtKpkoKyL3OYbVMPKBTIpbvXYkMLdiCMdDw6x6qmoX3pWw4G2BNBEVWqpXR/zun8Z3PdSN2u83zl5FX1MV4kZmc+zW3wAgePr6tyIGdk/NFoRNnCg/keV19rvJXzqah16Qmz09vnRd5sN4bCqd8QMxoN1P5P01gOZwSBFZQDQzOQI4WchaW86CmczZKIt5/OpRKJWAlVVKibcyxcHFGO6pfeZpPXJ8Trc4TZxk31Ve9yjONjZqyrrRT01jJq4wKoEp+uk+tOZuL03kL3D8jE6bnxzojwxISSKIi0wNgASjSjLfKVPxFBLbPXEzru9KHDRSOrnlE6bfFzoIvn5ero9rzq9LlhB6vnE2vUo/Zw4ivaGcz47O8zcE9ueP2RKw8iAxGid5nwusE2G+p0A7nwLvtJiXLGqIlStG6mPkvtJamV8tmGudebaBpBO4iMnR1UXfq9reSBoczbYBVhWLSzEy+M/UGAm7CauF96R3sj8ZAg5QvxpiEbHXHfdoJEgRDjHmD6KenaETDRDXiRV4zRZQZ6J+pxA3bQmd/9vcd3iTyEVokTTMhq/ZSuvi4reMzPr1jxudkKjavMGzvfgjdZg1FBIv1dC74buVFHNk/cIAVv6tIE/Jmt6JDjLA//5atWw9qVs0c55OacPn1tcQJFB3Q==" # Your SSH Pub key for Cardano Node account
 
 # Your static IP address
 # If you have dynamic IP, please consider using Wireguard
@@ -24,6 +25,7 @@ fi
 # Setting UTF-8 locale
 locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
 source ~/.bashrc
+reset
 
 # Create the ${NODE_USER} user (do not switch user)
 groupadd -g 1024 ${NODE_USER}
@@ -76,6 +78,7 @@ echo "/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab
 echo "tmpfs	/run/shm	tmpfs	ro,noexec,nosuid	0 0" | sudo tee -a /etc/fstab
 
 # Setup SSH
+mkdir -p ~/.ssh && cat ${SSH_PUB_KEY} >> ~/.ssh/authorized_keys
 cp -r ${HOME}/.ssh /home/${NODE_USER}
 chown -R ${NODE_USER}:${NODE_USER} /home/${NODE_USER}/.ssh
 sed -i.bak1 "s/#PubkeyAuthentication yes/PubkeyAuthentication yes/g" /etc/ssh/sshd_config
