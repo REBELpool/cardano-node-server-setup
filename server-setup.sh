@@ -78,7 +78,7 @@ echo "/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab
 echo "tmpfs	/run/shm	tmpfs	ro,noexec,nosuid	0 0" | sudo tee -a /etc/fstab
 
 # Setup SSH
-mkdir -p ~/.ssh && cat ${SSH_PUB_KEY} >> ~/.ssh/authorized_keys
+mkdir -p ~/.ssh && echo ${SSH_PUB_KEY} >> ~/.ssh/authorized_keys
 cp -r ${HOME}/.ssh /home/${NODE_USER}
 chown -R ${NODE_USER}:${NODE_USER} /home/${NODE_USER}/.ssh
 sed -i.bak1 "s/#PubkeyAuthentication yes/PubkeyAuthentication yes/g" /etc/ssh/sshd_config
