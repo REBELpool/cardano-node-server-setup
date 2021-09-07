@@ -23,7 +23,7 @@ if [ "$EUID" -ne 0 ]
 fi
 
 # Setting UTF-8 locale
-locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
+locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 && update-locale LC_ALL=en_US.UTF-8 && update-locale LC_CTYPE=en_US.UTF-8
 source ~/.bashrc
 reset
 
