@@ -8,7 +8,7 @@ sed -i '$d' ${HOME}/.bashrc
 mkdir -p ~/src
 
 # Install dependencies
-sudo apt-get install build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ libgmp10 libffi6 libffi-dev libtinfo5  libncursesw5 libncurses-dev libtool autoconf -y
+sudo apt-get install build-essential pkg-config libffi-dev libgmp-dev ccze libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ libgmp10 libffi6 libffi-dev libtinfo5  libncursesw5 libncurses-dev libtool autoconf -y
 
 # Install Libsodium
 cd ~/src
@@ -107,10 +107,10 @@ sudo systemctl enable cardano-node
 # Setup gLiveView
 cd $CNODE_HOME
 sudo apt install bc tcptraceroute -y
-curl -s -o gLiveView.sh https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/gLiveView.sh
-curl -s -o env https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/env
-chmod 755 gLiveView.sh
-sed -i env \
+curl -s -o gLiveView.sh https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/gLiveView.sh ${HOME}/cardano-node/scripts/
+curl -s -o env https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/env ${HOME}/cardano-node/scripts/
+chmod 755 ${HOME}/cardano-node/scripts/gLiveView.sh
+sed -i ${HOME}/cardano-node/scripts/env \
     -e "s/\#CONFIG=\"\${CCNODE_HOME}\/files\/config.json\"/CONFIG=\"\${CNODE_HOME}\/config/config.json\"/g" \
     -e "s/\#SOCKET=\"\${CCNODE_HOME}\/sockets\/node0.socket\"/SOCKET=\"\${CNODE_HOME}\/db\/node.socket\"/g"
 
