@@ -6,8 +6,8 @@
 #   3 - host address [default: 0.0.0.0]
 
 # Default parameters
-NODE_HOME="${HOME}/cardano-node"
-CARDANO_NODE="${HOME}/.local/bin/cardano-node"
+NODE_HOME="/home/rebel"
+CARDANO_NODE="/home/rebel/.local/bin/cardano-node"
 
 if [ $# -ge 1 ]; then
   NODE_MODE=$1
@@ -24,7 +24,7 @@ fi
 if [ $# -ge 3 ]; then
   HOST_ADDR=$3
 else
-  HOST_ADDR="$(ifdata -pa eth0)"
+  HOST_ADDR="x.x.x.x"
 fi
 
 echo "Running cardano-node with the following parameters:"
@@ -36,21 +36,21 @@ echo "  HOST_ADDR = $HOST_ADDR"
 
 if [ "$NODE_MODE" = "relay" ]; then
   eval $CARDANO_NODE run \
-    --database-path $NODE_HOME/db/ \
-    --socket-path $NODE_HOME/db/node.socket \
+    --database-path $NODE_HOME/cardano-node/db/ \
+    --socket-path $NODE_HOME/cardano-node/db/node.socket \
     --port $NODE_PORT \
     --host-addr $HOST_ADDR \
-    --config $NODE_HOME/config/config.json \
-    --topology $NODE_HOME/config/topology.json
+    --config $NODE_HOME/cardano-node/config/config.json \
+    --topology $NODE_HOME/cardano-node/config/topology.json
 elif [ "$NODE_MODE" = "pool" ]; then
   eval $CARDANO_NODE run \
-    --database-path $NODE_HOME/db/ \
-    --socket-path $NODE_HOME/db/node.socket \
+    --database-path $NODE_HOME/cardano-node/db/ \
+    --socket-path $NODE_HOME/cardano-node/db/node.socket \
     --host-addr $HOST_ADDR \
     --port $NODE_PORT \
-    --config $NODE_HOME/config/config.json \
-    --topology $NODE_HOME/config/topology.json \
-    --shelley-kes-key $NODE_HOME/config/kes.skey \
-    --shelley-vrf-key $NODE_HOME/config/vrf.skey \
-    --shelley-operational-certificate $NODE_HOME/config/node.cert
+    --config $NODE_HOME/cardano-node/config/config.json \
+    --topology $NODE_HOME/cardano-node/config/topology.json \
+    --shelley-kes-key $NODE_HOME/cardano-node/priv/kes.skey \
+    --shelley-vrf-key $NODE_HOME/cardano-node/priv/vrf.skey \
+    --shelley-operational-certificate $NODE_HOME/cardano-node/priv/node.cert
 fi
