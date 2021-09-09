@@ -118,6 +118,8 @@ ufw enable
 mkdir /home/${NODE_USER}/cardano-node
 mkdir /home/${NODE_USER}/cardano-node/config
 mkdir /home/${NODE_USER}/cardano-node/db
+mkdir /home/${NODE_USER}/cardano-node/priv
+mkdir /home/${NODE_USER}/cardano-node/logs
 mv scripts /home/${NODE_USER}/cardano-node/scripts
 touch /home/${NODE_USER}/cardano-node/db/node.socket
 chown -R ${NODE_USER}:${NODE_USER} /home/${NODE_USER}/cardano-node
