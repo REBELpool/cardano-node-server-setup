@@ -7,6 +7,7 @@ NODE_HOME="${HOME}/cardano-node"
 echo "Downloading mainnet files..."
 mkdir -p ${NODE_HOME}/config
 curl -sSL ${BASELINK}mainnet-config.json -o ${NODE_HOME}/config/config.json
+curl -sSL ${BASELINK}mainnet-alonzo-genesis.json -o ${NODE_HOME}/config/mainnet-alonzo-genesis.json
 curl -sSL ${BASELINK}mainnet-shelley-genesis.json -o ${NODE_HOME}/config/mainnet-shelley-genesis.json
 curl -sSL ${BASELINK}mainnet-byron-genesis.json -o ${NODE_HOME}/config/mainnet-byron-genesis.json
 curl -sSL ${BASELINK}mainnet-topology.json -o ${NODE_HOME}/config/topology.json
