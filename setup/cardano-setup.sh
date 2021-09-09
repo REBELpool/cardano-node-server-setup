@@ -24,7 +24,7 @@ sudo ln -s /usr/local/lib/libsodium.so.23.3.0 /usr/lib/libsodium.so.23
 # Install Cabal
 cd $HOME
 curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
-source $HOME/.bashrc
+reset
 ghcup upgrade
 ghcup install cabal 3.4.0.0
 ghcup set cabal 3.4.0.0
