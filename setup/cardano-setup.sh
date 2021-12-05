@@ -39,7 +39,7 @@ cabal --version
 ghc --version
 
 # Instal Cardano Node
-TAG=1.29.0
+TAG=1.31.0
 mkdir -p ~/src
 cd ~/src
 git clone https://github.com/input-output-hk/cardano-node.git
